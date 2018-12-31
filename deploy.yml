@@ -15,6 +15,9 @@
         path: "{{item.path}}"
         state: absent
       loop: "{{out.files}}"
+    
+    - name: Empty the log file 
+      shell: "> /home/student/apache-tomcat-9.0.14/logs/catalina.out"
 
     - name: Find war file in APPCODE
       local_action: find paths="/home/centos/workspace/prod-pipeline-job/APPCODE/target" patterns="*.war"
@@ -26,5 +29,11 @@
         src: "{{item.path}}"
         dest: /home/student/apache-tomcat-9.0.14/webapps/studentapp.war
       loop: "{{out.files}}"
+
+    - name: Wait for deployment completion
+      become_user: student
+      wait_for:
+        path: /home/student/apache-tomcat-9.0.14/logs/catalina.out
+        search_regex: 'org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive'
 
       
