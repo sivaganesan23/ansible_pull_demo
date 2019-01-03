@@ -38,7 +38,7 @@
       loop: "{{out.files}}"
 
     - name: Run API war file 
-      shell: nohup java -jar /home/student/studentapi.war
+      shell: source /tmp/rds.env && nohup java -jar /home/student/studentapi.war
 
     - name: Wait for deployment completion
       become_user: student
