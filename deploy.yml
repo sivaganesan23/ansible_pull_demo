@@ -39,6 +39,7 @@
 
     - name: Run API war file 
       shell: source /tmp/rds.env && nohup java -jar /home/student/studentapi.war
+      ignore_errors: yes
 
     - name: Wait for deployment completion
       become_user: student
