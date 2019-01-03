@@ -30,10 +30,21 @@
         dest: /home/student/apache-tomcat-9.0.14/webapps/studentapp.war
       loop: "{{out.files}}"
 
+    - name: Copy a file to remote server for api usage
+      become_user: student
+      copy: 
+        src: "{{item.path}}"
+        dest: /home/student/studentapi.war
+      loop: "{{out.files}}"
+
+    - name: Run API war file 
+      shell: nohup java -jar /home/student/studentapi.war
+
     - name: Wait for deployment completion
       become_user: student
       wait_for:
         path: /home/student/apache-tomcat-9.0.14/logs/catalina.out
         search_regex: 'org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive'
 
+    
       
