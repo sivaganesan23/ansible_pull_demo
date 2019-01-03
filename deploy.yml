@@ -44,7 +44,7 @@
         dest: /tmp/rds.env
 
     - name: Run API war file 
-      shell: source /tmp/rds.env && nohup java -jar /home/student/studentapi.war
+      shell: source /tmp/rds.env && nohup java -jar /home/student/studentapi.war &
       ignore_errors: yes
       become_user: student
 
