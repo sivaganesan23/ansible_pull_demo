@@ -37,6 +37,12 @@
         dest: /home/student/studentapi.war
       loop: "{{out.files}}"
 
+    - name: Copy env file 
+      become_user: student
+      copy: 
+        src: "/tmp/rds.env"
+        dest: /tmp/rds.env
+
     - name: Run API war file 
       shell: source /tmp/rds.env && nohup java -jar /home/student/studentapi.war
       ignore_errors: yes
