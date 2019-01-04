@@ -19,6 +19,16 @@
     - name: Empty the log file 
       shell: "> /home/student/apache-tomcat-9.0.14/logs/catalina.out"
 
+    - name: Stop API Application 
+      become_user: student
+      shell: JPID=$(ps -ef | grep 'java -jar /home/student/studentapi.war'  | grep -v grep | awk '{print $2}') && kill $JPID
+
+    - name: Clean API war 
+      become_user: student
+      file:
+        path: /home/student/studentapi.war
+        state: absent      
+
     - name: Find war file in APPCODE
       local_action: find paths="/home/centos/workspace/prod-pipeline-job/APPCODE/target" patterns="*.war"
       register: out
