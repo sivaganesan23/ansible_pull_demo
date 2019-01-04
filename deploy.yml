@@ -19,9 +19,14 @@
     - name: Empty the log file 
       shell: "> /home/student/apache-tomcat-9.0.14/logs/catalina.out"
 
-    - name: Stop API Application 
+    - name: Get API Application PID
       become_user: student
-      shell: JPID=$(ps -ef | grep 'java -jar /home/student/studentapi.war'  | grep -v grep | awk '{print $2}') && kill $JPID
+      shell: (ps -ef | grep 'java -jar /home/student/studentapi.war'  | grep -v grep | awk '{print $2}'
+      register: out 
+
+    - name: Stop API Application 
+      become_user: student 
+      shell: kill -9 {{out.stdout}}
 
     - name: Clean API war 
       become_user: student
