@@ -21,7 +21,7 @@
 
     - name: Get API Application PID
       become_user: student
-      shell: (ps -ef | grep 'java -jar /home/student/studentapi.war'  | grep -v grep | awk '{print $2}'
+      shell: ps -ef | grep 'java -jar /home/student/studentapi.war'  | grep -v grep | awk '{print $2}'
       register: out 
 
     - name: Stop API Application 
